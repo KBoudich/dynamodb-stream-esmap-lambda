@@ -3,7 +3,7 @@
 This repository demonstrates how to use Terraform to create an AWS DynamoDB table with a stream that triggers two Lambda functions. The first Lambda function handles `INSERT` events, while the second Lambda function handles `MODIFY` events.
 
 <p align="center">
-  <img src="./dynamodb-streams-lambda-filters.jpg" alt="dynamodb streams lambda filters">
+  <img src="./images/dynamodb-streams-lambda-filters.jpg" alt="dynamodb streams lambda filters">
 </p>
 
 ## Prerequisites
@@ -26,11 +26,43 @@ This repository demonstrates how to use Terraform to create an AWS DynamoDB tabl
     terraform init
    ```
 3. **Apply Terraform configuration**
+
    ```bash
     terraform apply
    ```
 
 This will set up the DynamoDB table, the stream, and the two Lambda functions.
+
+4. **Test**
+
+   4.1 **Add an titem to table**
+
+   Add an Item in the dynamodb
+
+```bash
+aws dynamodb put-item --table-name <table-name-placeholder> --item "{\"id\": {\"N\": \"44\"}}"
+
+```
+
+<p align="center">
+  <img src="./images/insert-log.png" alt="dynamodb streams lambda filters">
+</p>
+
+The screenshot above show the insert lambda log after receiving the insert event
+
+4.2 **Update the item**
+
+Updade the Item in the dynamodb
+
+<p align="center">
+  <img src="./images/update-item.png" alt="dynamodb update item">
+</p>
+
+Few moments after updating the Item, we can see in the update lambda functions log, the update event with the Item payload.
+
+<p align="center">
+  <img src="./images/update-log.png" alt="dynamodb streams lambda filters">
+</p>
 
 ## Architecture
 
